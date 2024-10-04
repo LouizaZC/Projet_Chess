@@ -6,6 +6,18 @@ Class {
 }
 
 { #category : 'tests' }
+MyChessSquareTest >> testPlacePiece [
+    | square piece |
+    square := MyChessSquare new.
+    piece := MyPawn new. 
+    
+    self assert: (square put: piece) equals: piece.
+    square put: nil.
+ 
+    self assert: square piece isNil. 
+]
+
+{ #category : 'tests' }
 MyChessSquareTest >> testRenderBishopWhitePieceBlackColor [ 
     | bishopPiece renderer |
     
