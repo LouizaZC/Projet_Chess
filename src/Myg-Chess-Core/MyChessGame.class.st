@@ -23,6 +23,7 @@ Class {
 		'movesLabel',
 		'moveCountLabel',
 		'moves',
+		'lastMove',
 		'dsp'
 	],
 	#category : 'Myg-Chess-Core',
@@ -123,6 +124,14 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 		aLayoutConstraints vertical fitContent ]
 ]
 
+{ #category : 'accessing' }
+MyChessGame >> lastMove [
+    "Retourne le dernier mouvement enregistré dans la partie"
+    ^ moves isEmpty
+        ifTrue: [ nil ]
+        ifFalse: [ moves last ].
+]
+
 { #category : 'public' }
 MyChessGame >> move: piece to: square [
 
@@ -132,7 +141,6 @@ MyChessGame >> move: piece to: square [
 
 { #category : 'accessing' }
 MyChessGame >> pieces [
-
 	^ board pieces
 ]
 
@@ -149,16 +157,17 @@ MyChessGame >> play [
 ]
 
 { #category : 'moves' }
-MyChessGame >> recordMovementOf: aPiece to: aSquare [
-	"moves add: (MyMove piece: aPiece square: aSquare name)."
+MyChessGame >> recordMovementOf: aPiece to: aSquare [ 
+    |  prefix movesText |
 
-	| prefix movesText |
-	prefix := currentPlayer isWhite
+    "Mettre à jour les mouvements textuels pour l'interface utilisateur"
+    prefix := currentPlayer isWhite
 		          ifTrue: [ moveCount asString , '.' ]
 		          ifFalse: [ '' ].
-	moves add: prefix , ' ' , aPiece id , aSquare name.
-	
-	movesText := String streamContents: [ :stream |
+    moves add: prefix , ' ' , aPiece id , aSquare name.
+
+    "Construire le texte d'affichage des mouvements"
+    movesText := String streamContents: [ :stream |
 		| currentLine |
 		currentLine := ''.
 		moves do: [ :m |
@@ -171,6 +180,7 @@ MyChessGame >> recordMovementOf: aPiece to: aSquare [
 		].
 		stream nextPutAll: currentLine
 	].
-	
-	movesLabel text: movesText
+
+    movesLabel text: movesText
+
 ]
