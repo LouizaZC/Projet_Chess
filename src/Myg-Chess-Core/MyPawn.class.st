@@ -2,8 +2,8 @@ Class {
 	#name : 'MyPawn',
 	#superclass : 'MyPiece',
 	#instVars : [
-		'hasMoved',
-		'board'
+		'firstMove',
+		'game'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -12,99 +12,84 @@ Class {
 { #category : 'as yet unclassified' }
 MyPawn >> calculateCaptureMoves [
     | captureMoves |
-    
-    "Sélectionner les cases diagonales en fonction de la couleur"
+
     captureMoves := { 
-        (square + (-1 @ (self isWhite ifTrue: [1] ifFalse: [-1]))).  "Gauche"
-        (square + (1 @ (self isWhite ifTrue: [1] ifFalse: [-1]))) }.  "Droite"
+        (square + (-1 @ (self isWhite ifTrue: [1] ifFalse: [-1]))).  
+        (square + (1 @ (self isWhite ifTrue: [1] ifFalse: [-1]))) }.  
     
-    "Filtrer les cases où il y a une pièce ennemie"
     ^ captureMoves select: [ :s | s notNil and: [ s hasPiece and: [ s contents color ~= self color ] ] ].
 ]
 
-{ #category : 'as yet unclassified' }
-MyPawn >> doubleForwardSquare [
-    ^ self isWhite
-        ifTrue: [ (square up) up ]
-        ifFalse: [( square down) down ].
-]
-
-{ #category : 'as yet unclassified' }
-MyPawn >> forwardSquare [
-    ^ self isWhite 
-        ifTrue: [ square up ]
-        ifFalse: [ square down ].
+{ #category : 'accessing' }
+MyPawn >> firstMove [
+	^ firstMove 
 ]
 
 { #category : 'accessing' }
-MyPawn >> hasMoved [ 
-	^ hasMoved
+MyPawn >> firstMove: aBoolean [
+	firstMove := aBoolean
 ]
 
-{ #category : 'accessing' }
-MyPawn >> hasMoved: aBoolean [
-	hasMoved := aBoolean
+{ #category : 't - rotating' }
+MyPawn >> forwardDirection [
+    ^ self isWhite ifTrue: [ 1 ] ifFalse: [ -1 ].
 ]
 
 { #category : 'accessing' }
 MyPawn >> id [
-
 	^ 'P'
 ]
 
 { #category : 'initialization' }
 MyPawn >> initialize [ 
-	super initialize.
-	hasMoved := false
-]
-
-{ #category : 'accessing' }
-MyPawn >> isOnStartingPosition [
-    ^ self isWhite 
-        ifTrue: [ square = MyChessBoard at: 2 ]
-        ifFalse: [ square = MyChessBoard at: 7 ].
+        super initialize.
+        firstMove := true.
 ]
 
 { #category : 'testing' }
 MyPawn >> isPawn [
-	
 	^ true
+]
+
+{ #category : 'path commands' }
+MyPawn >> moveTo: aSquare [ 
+    (aSquare = square) ifTrue: [
+        ^self.  
+    ].
+    super moveTo: aSquare.
+    firstMove ifTrue: [
+        firstMove := false.
+    ].
+
 ]
 
 { #category : 'rendering' }
 MyPawn >> renderPieceOn: aSquare [ 
-	
 	^ aSquare renderPawn: self
 ]
 
 { #category : 'rendering' }
-MyPawn >> targetSquaresLegal: includeSpecialMoves [
-    | legalMoves singleStepSquare doubleStepSquare captureSquares |
+MyPawn >> targetSquaresLegal: aBoolean [
+    | legalMoves singleStepSquare doubleStepSquare captureSquares forwardDirection |
 
-    "Calculer la case pour un pas en avant"
-    singleStepSquare := self forwardSquare.
+    forwardDirection := self forwardDirection .
 
-    "Calculer la case pour un double pas en avant"
-    doubleStepSquare := self doubleForwardSquare.
+    singleStepSquare := square + (0 @ forwardDirection).
 
-    "Initialiser la collection des mouvements légaux"
     legalMoves := OrderedCollection new.
 
-    "Ajout des mouvements de base (un pas en avant)"
     singleStepSquare ifNotNil: [
         singleStepSquare hasPiece ifFalse: [
             legalMoves add: singleStepSquare.
 
-            "Vérifier si le pion peut avancer de deux cases"
-            hasMoved ifFalse: [  "Uniquement s'il n'a pas encore bougé"
+            (self firstMove) ifTrue: [
+                doubleStepSquare := square + (0 @ (2 * forwardDirection)).
                 doubleStepSquare ifNotNil: [
-                    doubleStepSquare hasPiece ifFalse: [
-                        legalMoves add: doubleStepSquare ] ] ] ] ].
+		   (singleStepSquare hasPiece not and: [doubleStepSquare hasPiece not]) ifTrue: [
+						legalMoves add: doubleStepSquare ] ] ] ] ].
 
-    "Calcul des captures possibles"
     captureSquares := self calculateCaptureMoves.
-
-    "Retourner les mouvements possibles de captures et de déplacement"
+		
     ^ captureSquares , legalMoves.
 
 ]

@@ -24,7 +24,9 @@ Class {
 		'moveCountLabel',
 		'moves',
 		'lastMove',
-		'dsp'
+		'dsp',
+		'startPosition',
+		'endPosition'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -126,17 +128,20 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 
 { #category : 'accessing' }
 MyChessGame >> lastMove [
-    "Retourne le dernier mouvement enregistré dans la partie"
     ^ moves isEmpty
         ifTrue: [ nil ]
         ifFalse: [ moves last ].
 ]
 
 { #category : 'public' }
-MyChessGame >> move: piece to: square [
+MyChessGame >> move: piece to: square [ 
+    | startSquare |
+    startSquare := piece square.
+    piece moveTo: square.  
 
-	piece moveTo: square.
-	self recordMovementOf: piece to: square
+    self recordMovementOf: piece  to: square. 
+
+
 ]
 
 { #category : 'accessing' }
@@ -159,8 +164,6 @@ MyChessGame >> play [
 { #category : 'moves' }
 MyChessGame >> recordMovementOf: aPiece to: aSquare [ 
     |  prefix movesText |
-
-    "Mettre à jour les mouvements textuels pour l'interface utilisateur"
     prefix := currentPlayer isWhite
 		          ifTrue: [ moveCount asString , '.' ]
 		          ifFalse: [ '' ].
