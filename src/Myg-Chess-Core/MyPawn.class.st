@@ -70,6 +70,7 @@ MyPawn >> renderPieceOn: aSquare [
 
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
+
     | legalMoves singleStepSquare doubleStepSquare captureSquares forwardDirection |
 
     forwardDirection := self forwardDirection .
