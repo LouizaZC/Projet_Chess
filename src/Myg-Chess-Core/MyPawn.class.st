@@ -2,12 +2,36 @@ Class {
 	#name : 'MyPawn',
 	#superclass : 'MyPiece',
 	#instVars : [
-		'firstMove',
-		'game'
+		'firstMove'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
 }
+
+{ #category : 'as yet unclassified' }
+MyPawn >> basicMovesLegal [
+    | legalMoves singleStepSquare doubleStepSquare |
+
+    legalMoves := OrderedCollection new.
+
+    singleStepSquare := self singleStepSquare.
+    singleStepSquare ifNotNil: [
+        singleStepSquare hasPiece ifFalse: [
+            legalMoves add: singleStepSquare.
+            self firstMove ifTrue: [
+                doubleStepSquare := self doubleStepSquare.
+                doubleStepSquare ifNotNil: [
+                    (singleStepSquare hasPiece not and: [doubleStepSquare hasPiece not]) ifTrue: [
+                        legalMoves add: doubleStepSquare
+                    ]
+                ]
+            ]
+        ]
+    ].
+
+    ^ legalMoves.
+
+]
 
 { #category : 'as yet unclassified' }
 MyPawn >> calculateCaptureMoves [
@@ -18,6 +42,12 @@ MyPawn >> calculateCaptureMoves [
         (square + (1 @ (self isWhite ifTrue: [1] ifFalse: [-1]))) }.  
     
     ^ captureMoves select: [ :s | s notNil and: [ s hasPiece and: [ s contents color ~= self color ] ] ].
+]
+
+{ #category : 'as yet unclassified' }
+MyPawn >> doubleStepSquare [
+    ^ square + (0 @ (2 * self forwardDirection)).
+
 ]
 
 { #category : 'accessing' }
@@ -68,29 +98,24 @@ MyPawn >> renderPieceOn: aSquare [
 	^ aSquare renderPawn: self
 ]
 
+{ #category : 'as yet unclassified' }
+MyPawn >> singleStepSquare [
+    ^ square + (0 @ self forwardDirection).
+
+]
+
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
-
-    | legalMoves singleStepSquare doubleStepSquare captureSquares forwardDirection |
-
-    forwardDirection := self forwardDirection .
-
-    singleStepSquare := square + (0 @ forwardDirection).
+    | legalMoves captureSquares |
 
     legalMoves := OrderedCollection new.
 
-    singleStepSquare ifNotNil: [
-        singleStepSquare hasPiece ifFalse: [
-            legalMoves add: singleStepSquare.
+    "Ajout des mouvements de base (un ou deux pas en avant)"
+    legalMoves addAll: (self basicMovesLegal).
 
-            (self firstMove) ifTrue: [
-                doubleStepSquare := square + (0 @ (2 * forwardDirection)).
-                doubleStepSquare ifNotNil: [
-		   (singleStepSquare hasPiece not and: [doubleStepSquare hasPiece not]) ifTrue: [
-						legalMoves add: doubleStepSquare ] ] ] ] ].
-
+    "Ajout des captures possibles (diagonales)"
     captureSquares := self calculateCaptureMoves.
-		
+
     ^ captureSquares , legalMoves.
 
 ]
