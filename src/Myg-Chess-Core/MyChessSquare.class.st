@@ -112,7 +112,7 @@ MyChessSquare >> down [
 { #category : 'asd' }
 MyChessSquare >> emptyContents [
 	
-	self contents: nil
+	self contents: MyVoidPiece new.
 ]
 
 { #category : 'accessing' }
