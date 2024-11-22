@@ -6,6 +6,31 @@ Class {
 }
 
 { #category : 'tests' }
+MyChessSquareTest >> testHasPiece [
+	|board square piece|
+	board := MyChessBoard empty.
+	square := MyChessSquare new.
+	square := board at: 'a7'.
+	piece := MyPiece new .
+	square contents: piece .
+	square hasPiece .
+	self assert: square hasPiece equals: piece.
+]
+
+{ #category : 'tests' }
+MyChessSquareTest >> testNoNilChecks [
+	|board piece square |
+	board := MyChessBoard empty.
+	piece := MyPawn white.
+	square := MyChessSquare new.
+	square := board at: 'd3'.
+	square contents: piece.
+	square emptyContents.
+	self assert: (square contents isKindOf: MyVoidPiece).
+	
+]
+
+{ #category : 'tests' }
 MyChessSquareTest >> testPlacePiece [
     | square piece |
     square := MyChessSquare new.
@@ -318,4 +343,21 @@ MyChessSquareTest >> testRenderRookWhitePieceWhiteColor [
     
     renderer color: Color white.
     self assert: (renderer renderRook: rookPiece) equals: 'R'.
+]
+
+{ #category : 'tests' }
+MyChessSquareTest >> testSetAName [
+    | square |
+    square := MyChessSquare new.
+	 square color: Color white.
+    square name: 'a7'.
+    self assert: square name equals: 'a7'.
+]
+
+{ #category : 'tests' }
+MyChessSquareTest >> testSetColor [ 
+	| square|
+	square := MyChessSquare new.
+		square color: Color black.
+		self assert: square color equals: Color black.
 ]
