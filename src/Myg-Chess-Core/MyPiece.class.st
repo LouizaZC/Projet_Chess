@@ -144,6 +144,11 @@ MyPiece >> isTransparent [
 ]
 
 { #category : 'testing' }
+MyPiece >> isVoidPiece [ 
+	^ false.
+]
+
+{ #category : 'testing' }
 MyPiece >> isWhite [
 	
 	^ color isBlack not
