@@ -217,6 +217,11 @@ MyPiece >> targetSquaresLegal: aBoolean [
 	self subclassResponsibility
 ]
 
+{ #category : 'tests' }
+MyPiece >> testId [ 
+
+]
+
 { #category : 'rendering' }
 MyPiece >> upFile [
 
