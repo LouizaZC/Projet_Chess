@@ -50,10 +50,17 @@ MyPawn >> doubleStepSquare [
 
 ]
 
+
 { #category : 'accessing' }
 MyPawn >> firstMove [
 	^ firstMove 
 ]
+
+{ #category : 'testing' }
+MyPawn >> isMoving: aBoolean [
+
+	move:= aBoolean .
+
 
 { #category : 'accessing' }
 MyPawn >> firstMove: aBoolean [
