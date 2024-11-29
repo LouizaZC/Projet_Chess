@@ -23,7 +23,10 @@ Class {
 		'movesLabel',
 		'moveCountLabel',
 		'moves',
-		'dsp'
+		'lastMove',
+		'dsp',
+		'startPosition',
+		'endPosition'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -123,16 +126,26 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 		aLayoutConstraints vertical fitContent ]
 ]
 
-{ #category : 'public' }
-MyChessGame >> move: piece to: square [
+{ #category : 'accessing' }
+MyChessGame >> lastMove [
+    ^ moves isEmpty
+        ifTrue: [ nil ]
+        ifFalse: [ moves last ].
+]
 
-	piece moveTo: square.
-	self recordMovementOf: piece to: square
+{ #category : 'public' }
+MyChessGame >> move: piece to: square [ 
+    | startSquare |
+    startSquare := piece square.
+    piece moveTo: square.  
+
+    self recordMovementOf: piece  to: square. 
+
+
 ]
 
 { #category : 'accessing' }
 MyChessGame >> pieces [
-
 	^ board pieces
 ]
 
@@ -149,16 +162,15 @@ MyChessGame >> play [
 ]
 
 { #category : 'moves' }
-MyChessGame >> recordMovementOf: aPiece to: aSquare [
-	"moves add: (MyMove piece: aPiece square: aSquare name)."
-
-	| prefix movesText |
-	prefix := currentPlayer isWhite
+MyChessGame >> recordMovementOf: aPiece to: aSquare [ 
+    |  prefix movesText |
+    prefix := currentPlayer isWhite
 		          ifTrue: [ moveCount asString , '.' ]
 		          ifFalse: [ '' ].
-	moves add: prefix , ' ' , aPiece id , aSquare name.
-	
-	movesText := String streamContents: [ :stream |
+    moves add: prefix , ' ' , aPiece id , aSquare name.
+
+    "Construire le texte d'affichage des mouvements"
+    movesText := String streamContents: [ :stream |
 		| currentLine |
 		currentLine := ''.
 		moves do: [ :m |
@@ -171,6 +183,7 @@ MyChessGame >> recordMovementOf: aPiece to: aSquare [
 		].
 		stream nextPutAll: currentLine
 	].
-	
-	movesLabel text: movesText
+
+    movesLabel text: movesText
+
 ]
