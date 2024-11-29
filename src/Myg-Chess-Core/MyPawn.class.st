@@ -61,6 +61,7 @@ MyPawn >> isMoving: aBoolean [
 
 	move:= aBoolean .
 
+]
 
 { #category : 'accessing' }
 MyPawn >> firstMove: aBoolean [
