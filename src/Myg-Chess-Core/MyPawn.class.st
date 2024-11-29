@@ -27,6 +27,7 @@ MyPawn >> isBlack [
 
 { #category : 'testing' }
 MyPawn >> isMoving: aBoolean [
+
 	move:= aBoolean .
 
 ]
