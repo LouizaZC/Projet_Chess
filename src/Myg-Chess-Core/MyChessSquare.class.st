@@ -151,6 +151,12 @@ MyChessSquare >> highlightTarget [
 	self addChild: target
 ]
 
+{ #category : 'as yet unclassified' }
+MyChessSquare >> horizontalDistanceTo: anotherSquare [
+    ^ self column asciiValue - anotherSquare column asciiValue
+
+]
+
 { #category : 'initialization' }
 MyChessSquare >> initialize [
 
