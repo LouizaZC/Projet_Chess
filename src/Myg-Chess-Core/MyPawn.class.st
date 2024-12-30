@@ -1,10 +1,6 @@
 Class {
 	#name : 'MyPawn',
 	#superclass : 'MyPiece',
-	#instVars : [
-		'firstMove',
-		'enPassant'
-	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
 }
@@ -124,15 +120,6 @@ MyPawn >> id [
 	^ 'P'
 ]
 
-{ #category : 'initialization' }
-MyPawn >> initialize [ 
-        super initialize.
-        firstMove := true.
-		 enPassant := nil.
-		  
-
-]
-
 { #category : 'testing' }
 MyPawn >> isBlack [
     ^ self color = Color black.
@@ -147,26 +134,6 @@ MyPawn >> isPawn [
 { #category : 'testing' }
 MyPawn >> isWhite [
     ^ self color = Color white.
-]
-
-{ #category : 'path commands' }
-MyPawn >> moveTo: aSquare [
-
-	| enPassantTargetSquare doubleStep |
-	enPassantTargetSquare := (self calculateEnPassant includes: aSquare)
-		                         ifTrue: [
-			                         self isWhite
-				                         ifTrue: [ aSquare down ]
-				                         ifFalse: [ aSquare up ] ].
-	enPassantTargetSquare ifNotNil: [
-		enPassantTargetSquare emptyContents ].
-	doubleStep := self firstMove and: [ aSquare = self doubleStepSquare ].
-	aSquare ~= square ifFalse: [ ^ self ].
-	super moveTo: aSquare.
-	enPassant := doubleStep
-		             ifTrue: [ aSquare ]
-		             ifFalse: [ nil ].
-	firstMove := false
 ]
 
 { #category : 'rendering' }
