@@ -1,6 +1,10 @@
 Class {
 	#name : 'MyPawn',
 	#superclass : 'MyPiece',
+	#instVars : [
+		'firstMove',
+		'enPassant'
+	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
 }
@@ -27,6 +31,7 @@ MyPawn >> basicMovesLegal [
     ].
 
     ^ legalMoves.
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -77,7 +82,6 @@ MyPawn >> calculateEnPassant [
 
     ^ enPassantMoves.
 
-
 ]
 
 { #category : 'testing' }
@@ -92,17 +96,9 @@ MyPawn >> doubleStepSquare [
     ^ square + (0 @ (2 * self forwardDirection)).
 ]
 
-
 { #category : 'accessing' }
 MyPawn >> firstMove [
 	^ firstMove 
-]
-
-{ #category : 'testing' }
-MyPawn >> isMoving: aBoolean [
-
-	move:= aBoolean .
-
 ]
 
 { #category : 'accessing' }
@@ -120,6 +116,16 @@ MyPawn >> id [
 	^ 'P'
 ]
 
+{ #category : 'initialization' }
+MyPawn >> initialize [ 
+        super initialize.
+        firstMove := true.
+		  enPassant := nil.
+		  
+
+
+]
+
 { #category : 'testing' }
 MyPawn >> isBlack [
     ^ self color = Color black.
@@ -134,6 +140,26 @@ MyPawn >> isPawn [
 { #category : 'testing' }
 MyPawn >> isWhite [
     ^ self color = Color white.
+]
+
+{ #category : 'path commands' }
+MyPawn >> moveTo: aSquare [ 
+	| enPassantTargetSquare doubleStep |
+	enPassantTargetSquare := (self calculateEnPassant includes: aSquare)
+		                         ifTrue: [
+			                         self isWhite
+				                         ifTrue: [ aSquare down ]
+				                         ifFalse: [ aSquare up ] ].
+	enPassantTargetSquare ifNotNil: [
+		enPassantTargetSquare emptyContents ].
+	doubleStep := self firstMove and: [ aSquare = self doubleStepSquare ].
+	aSquare ~= square ifFalse: [ ^ self ].
+	super moveTo: aSquare.
+	enPassant := doubleStep
+		             ifTrue: [ aSquare ]
+		             ifFalse: [ nil ].
+	firstMove := false
+
 ]
 
 { #category : 'rendering' }
