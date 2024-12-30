@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-MyPawn >> basicMovesLegal [
+MyPawn >> basicMovesLegal [ 
     | legalMoves singleStepSquare doubleStepSquare |
 
     legalMoves := OrderedCollection new.
@@ -27,11 +27,10 @@ MyPawn >> basicMovesLegal [
     ].
 
     ^ legalMoves.
-
 ]
 
 { #category : 'as yet unclassified' }
-MyPawn >> calculateCaptureMoves [
+MyPawn >> calculateCaptureMoves [ 
     | captureMoves |
 
     captureMoves := { 
@@ -39,12 +38,58 @@ MyPawn >> calculateCaptureMoves [
         (square + (1 @ (self isWhite ifTrue: [1] ifFalse: [-1]))) }.  
     
     ^ captureMoves select: [ :s | s notNil and: [ s hasPiece and: [ s contents color ~= self color ] ] ].
+
 ]
 
 { #category : 'as yet unclassified' }
-MyPawn >> doubleStepSquare [
-    ^ square + (0 @ (2 * self forwardDirection)).
+MyPawn >> calculateEnPassant [ 
+    | enPassantMoves lastMove opponentPawnPosition captureTargetPosition |
 
+    "Si une position en passant est déjà définie, la retourner immédiatement"
+    enPassant ifNotNil: [ ^ OrderedCollection with: enPassant ].
+
+    "Initialiser une collection vide pour les mouvements en passant possibles"
+    enPassantMoves := OrderedCollection new.
+    lastMove := square board game lastMove.
+
+    "Vérifier si le dernier mouvement est pertinent pour le en passant"
+    lastMove ifNotNil: [
+        (lastMove piece isPawn
+            and: [ (lastMove fromSquare file asInteger - lastMove toSquare file asInteger) abs = 2 ]) ifTrue: [
+            
+            "Vérifier si ce pion peut capturer en passant"
+            self canCaptureEnPassant ifTrue: [
+                opponentPawnPosition := lastMove toSquare.
+                
+                "Vérifier si la distance horizontale est de 1"
+                (self square horizontalDistanceTo: opponentPawnPosition) abs = 1 ifTrue: [
+                    captureTargetPosition := self isWhite
+                        ifTrue: [ opponentPawnPosition up ]
+                        ifFalse: [ opponentPawnPosition down ].
+                    
+                    "Mettre à jour l'état de en passant et ajouter la position cible"
+                    enPassant := captureTargetPosition.
+                    enPassantMoves add: captureTargetPosition.
+                ].
+            ].
+        ].
+    ].
+
+    ^ enPassantMoves.
+
+
+]
+
+{ #category : 'testing' }
+MyPawn >> canCaptureEnPassant [
+	^ self isWhite 
+		ifTrue: [ square file = $5 ] 
+		ifFalse: [ square file = $4 ] 
+]
+
+{ #category : 'as yet unclassified' }
+MyPawn >> doubleStepSquare [ 
+    ^ square + (0 @ (2 * self forwardDirection)).
 ]
 
 { #category : 'accessing' }
@@ -58,7 +103,7 @@ MyPawn >> firstMove: aBoolean [
 ]
 
 { #category : 't - rotating' }
-MyPawn >> forwardDirection [
+MyPawn >> forwardDirection [ 
     ^ self isWhite ifTrue: [ 1 ] ifFalse: [ -1 ].
 ]
 
@@ -68,8 +113,19 @@ MyPawn >> id [
 ]
 
 { #category : 'testing' }
+MyPawn >> isBlack [
+    ^ self color = Color black.
+
+]
+
+{ #category : 'testing' }
 MyPawn >> isPawn [
 	^ true
+]
+
+{ #category : 'testing' }
+MyPawn >> isWhite [
+    ^ self color = Color white.
 ]
 
 { #category : 'rendering' }
@@ -78,14 +134,15 @@ MyPawn >> renderPieceOn: aSquare [
 ]
 
 { #category : 'as yet unclassified' }
-MyPawn >> singleStepSquare [
+MyPawn >> singleStepSquare [ 
     ^ square + (0 @ self forwardDirection).
+
 
 ]
 
 { #category : 'rendering' }
-MyPawn >> targetSquaresLegal: aBoolean [
-    | legalMoves captureSquares |
+MyPawn >> targetSquaresLegal: aBoolean [ 
+    | legalMoves captureSquares enPassantSquares|
 
     legalMoves := OrderedCollection new.
 
@@ -95,6 +152,9 @@ MyPawn >> targetSquaresLegal: aBoolean [
     "Ajout des captures possibles (diagonales)"
     captureSquares := self calculateCaptureMoves.
 
-    ^ captureSquares , legalMoves.
+    "Ajout des captures en passant"
+     enPassantSquares ifNil: [ enPassantSquares := self calculateEnPassant ].
+
+    ^ captureSquares , legalMoves , enPassantSquares.
 
 ]

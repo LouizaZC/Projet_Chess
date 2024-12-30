@@ -23,10 +23,8 @@ Class {
 		'movesLabel',
 		'moveCountLabel',
 		'moves',
-		'lastMove',
 		'dsp',
-		'startPosition',
-		'endPosition'
+		'lastMove'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -127,25 +125,29 @@ MyChessGame >> initializeFromFENGame: aFENGame [
 ]
 
 { #category : 'accessing' }
-MyChessGame >> lastMove [
-    ^ moves isEmpty
-        ifTrue: [ nil ]
-        ifFalse: [ moves last ].
+MyChessGame >> lastMove [ 
+	^ lastMove 
+
+]
+
+{ #category : 'accessing' }
+MyChessGame >> lastMove: aMove [ 
+	lastMove := aMove 
 ]
 
 { #category : 'public' }
 MyChessGame >> move: piece to: square [ 
-    | startSquare |
-    startSquare := piece square.
-    piece moveTo: square.  
-
-    self recordMovementOf: piece  to: square. 
-
+	
+	self recordLastMoveForPiece: piece to: square. 
+	
+	piece moveTo: square.
+	self recordMovementOf: piece to: square
 
 ]
 
 { #category : 'accessing' }
 MyChessGame >> pieces [
+
 	^ board pieces
 ]
 
@@ -161,16 +163,29 @@ MyChessGame >> play [
 	self checkForMate
 ]
 
+{ #category : 'as yet unclassified' }
+MyChessGame >> recordLastMoveForPiece: aPiece to: aSquare [ 
+	| move |
+	move := MyMove new.
+	move piece: aPiece.
+	move fromSquare: aPiece square.
+	move toSquare: aSquare.
+	self lastMove: move
+	
+]
+
 { #category : 'moves' }
 MyChessGame >> recordMovementOf: aPiece to: aSquare [ 
-    |  prefix movesText |
-    prefix := currentPlayer isWhite
+	"moves add: (MyMove piece: aPiece square: aSquare name)."
+
+	| prefix movesText |
+	
+	prefix := currentPlayer isWhite
 		          ifTrue: [ moveCount asString , '.' ]
 		          ifFalse: [ '' ].
-    moves add: prefix , ' ' , aPiece id , aSquare name.
+	moves add: prefix , ' ' , aPiece id , aSquare name.
 
-    "Construire le texte d'affichage des mouvements"
-    movesText := String streamContents: [ :stream |
+	movesText := String streamContents: [ :stream |
 		| currentLine |
 		currentLine := ''.
 		moves do: [ :m |
@@ -184,6 +199,5 @@ MyChessGame >> recordMovementOf: aPiece to: aSquare [
 		stream nextPutAll: currentLine
 	].
 
-    movesLabel text: movesText
-
+	movesLabel text: movesText.
 ]
