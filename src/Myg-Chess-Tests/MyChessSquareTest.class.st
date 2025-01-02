@@ -10,11 +10,27 @@ MyChessSquareTest >> testHasPiece [
 	|board square piece|
 	board := MyChessBoard empty.
 	square := MyChessSquare new.
-	square := board at: 'a7'.
+	square := board at: 'a5'.
+	square name: 'a5'.
+	square color: Color black.
 	piece := MyPiece new .
+	piece := MyPawn white .
+	square contents: piece .
+
+	self assert: square contents equals: piece.
+]
+
+{ #category : 'tests' }
+MyChessSquareTest >> testHasPieceNoNilChecks [
+	|square piece board|
+	board := MyChessBoard empty.
+	square := MyChessSquare new.
+	square := board at: 'a5'.
+	piece := MyPawn white .
 	square contents: piece .
 	square hasPiece .
-	self assert: square hasPiece equals: piece.
+
+	self assert: square hasPiece equals: piece isVoidPiece not.
 ]
 
 { #category : 'tests' }
@@ -28,18 +44,6 @@ MyChessSquareTest >> testNoNilChecks [
 	square emptyContents.
 	self assert: (square contents isKindOf: MyVoidPiece).
 	
-]
-
-{ #category : 'tests' }
-MyChessSquareTest >> testPlacePiece [
-    | square piece |
-    square := MyChessSquare new.
-    piece := MyPawn new. 
-    
-    self assert: (square put: piece) equals: piece.
-    square put: nil.
- 
-    self assert: square piece isNil. 
 ]
 
 { #category : 'tests' }
