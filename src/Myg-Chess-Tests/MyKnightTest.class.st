@@ -5,15 +5,6 @@ Class {
 	#package : 'Myg-Chess-Tests'
 }
 
-{ #category : 'accessing' }
-MyKnightTest >> method [
- | knight |
-	
-knight := MyKnight new.
-knight color: Color black.
-self assert: knight color = Color black
-]
-
 { #category : 'tests' }
 MyKnightTest >> testIsBlackKnight [
 	"self assert: ((MyKnight new color: Color black) color = Color black)."
@@ -34,4 +25,13 @@ MyKnightTest >> testIsWhiteKnight [
 { #category : 'tests' }
 MyKnightTest >> testKnightId [
 	self assert: MyKnight new id equals: 'N'
+]
+
+{ #category : 'accessing' }
+MyKnightTest >> testMethod [
+ | knight |
+	
+knight := MyKnight new.
+knight color: Color black.
+self assert: knight color = Color black
 ]

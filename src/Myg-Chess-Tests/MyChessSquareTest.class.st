@@ -96,14 +96,6 @@ MyChessSquareTest >> testNoNilChecks [
 ]
 
 { #category : 'tests' }
-MyChessSquareTest >> testRenderBlackKnightBlacksquare [
-
-	"self
-		assert: (MyChessSquare black renderKnight: MyKnight black)
-		equals: 'm'"
-]
-
-{ #category : 'tests' }
 MyChessSquareTest >> testSetAName [
     | square |
     square := MyChessSquare new.
