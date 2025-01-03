@@ -93,9 +93,7 @@ MyChessSquare >> contents: aPiece [
 
 	text := contents
 		        ifNil: [
-			        color isBlack
-				        ifFalse: [ 'z' ]
-				        ifTrue: [ 'x' ] ]
+			        contents:= MyVoidPiece new ]
 		        ifNotNil: [ contents renderPieceOn: self ].
 	piece text: (text asRopedText
 			 fontSize: 48;
@@ -122,7 +120,7 @@ MyChessSquare >> downRight [
 { #category : 'asd' }
 MyChessSquare >> emptyContents [
 	
-	self contents: nil
+	self contents: MyVoidPiece new.
 ]
 
 { #category : 'accessing' }
@@ -142,7 +140,7 @@ MyChessSquare >> foreground [
 { #category : 'testing' }
 MyChessSquare >> hasPiece [
 	
-	^ contents isNil not
+	^ contents isVoidPiece not
 ]
 
 { #category : 'highlighting' }
@@ -155,6 +153,7 @@ MyChessSquare >> highlightTarget [
 MyChessSquare >> initialize [
 
 	super initialize.
+	contents := MyVoidPiece new.
 	target := BlElement new
 		  geometry: BlCircleGeometry new;
 		  background: (Color gray alpha: 0.3).
