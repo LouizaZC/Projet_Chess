@@ -11,7 +11,7 @@ self assert: MyKing new id equals: 'K'
 ]
 
 { #category : 'tests' }
-MyKingTest >> testIsCheckByOpponentsRook [
+MyKingTest >> testIsCheckByOpponentsRook [ 
 
 	| king board |
 	board := MyChessBoard empty.
@@ -21,6 +21,8 @@ MyKingTest >> testIsCheckByOpponentsRook [
 	board at: 'e1' put: MyRook black.
 
 	self assert: king isInCheck
+
+
 ]
 
 { #category : 'tests' }

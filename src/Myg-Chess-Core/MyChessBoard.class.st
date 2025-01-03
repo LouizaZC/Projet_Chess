@@ -132,7 +132,7 @@ MyChessBoard >> initializeFromFENBoard: aFENBoard [
 ]
 
 { #category : 'initialization' }
-MyChessBoard >> initializePieces [
+MyChessBoard >> initializePieces [ 
 
 	| black |
 	black := false.
@@ -143,13 +143,15 @@ MyChessBoard >> initializePieces [
 			square := black
 				          ifTrue: [
 					          black := false.
-					          MyBlackSquare basicNew
+					          MyChessSquare basicNew
+						          color: Color black;
 						          board: self;
 						          initialize;
 						          yourself ]
 				          ifFalse: [
 					          black := true.
-					          MyWhiteSquare basicNew
+					          MyChessSquare basicNew
+						          color: Color white;
 						          board: self;
 						          initialize;
 						          yourself ].
@@ -181,6 +183,7 @@ MyChessBoard >> initializePieces [
 
 	$a asciiValue to: $h asciiValue do: [ :column |
 		self at: column asCharacter asString , '7' put: MyPawn black ]
+
 ]
 
 { #category : 'initialization' }

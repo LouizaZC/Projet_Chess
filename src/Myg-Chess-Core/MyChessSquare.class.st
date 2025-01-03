@@ -47,7 +47,9 @@ MyChessSquare >> + aPoint [
 
 { #category : 'api - text weight' }
 MyChessSquare >> black [ 
-^ MyBlackSquare new
+
+	^ self color: Color black
+
 ]
 
 { #category : 'accessing' }
@@ -126,6 +128,22 @@ MyChessSquare >> downRight [
 MyChessSquare >> emptyContents [
 	
 	self contents: MyVoidPiece new.
+]
+
+{ #category : 'rendering' }
+MyChessSquare >> enderQueen: aPiece [
+
+	^ aPiece isWhite
+		  ifFalse: [
+			  color isBlack
+				  ifFalse: [ 'W' ]
+				  ifTrue: [ 'w' ] ]
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'Q' ]
+				  ifTrue: [ 'q' ] ]
+
+
 ]
 
 { #category : 'accessing' }
@@ -219,39 +237,91 @@ MyChessSquare >> printOn: aStream [
 ]
 
 { #category : 'rendering' }
-MyChessSquare >> renderBishop: aPiece [
-self subclassResponsibility
-	
+MyChessSquare >> renderBishop: aPiece [ 
+
+	^ aPiece isWhite
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'B' ]
+				  ifTrue: [ 'b' ] ]
+		  ifFalse: [
+			  color isBlack
+				  ifFalse: [ 'V' ]
+				  ifTrue: [ 'v' ] ]
+
 ]
 
 { #category : 'rendering' }
-MyChessSquare >> renderKing: aPiece [
+MyChessSquare >> renderKing: aPiece [ 
+	^ aPiece isWhite
+		  ifFalse: [
+			  color isBlack
+				  ifFalse: [ 'L' ]
+				  ifTrue: [ 'l' ] ]
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'K' ]
+				  ifTrue: [ 'k' ] ]
 
-		self subclassResponsibility
 ]
 
 { #category : 'rendering' }
-MyChessSquare >> renderKnight: aPiece [
+MyChessSquare >> renderKnight: aPiece [ 
 
-		self subclassResponsibility
+	^ aPiece isWhite
+		  ifFalse: [ color isBlack
+				  ifFalse: [ 'M' ]
+				  ifTrue: [ 'm' ] ]
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'N' ]
+				  ifTrue: [ 'n' ] ]
+
 ]
 
 { #category : 'rendering' }
-MyChessSquare >> renderPawn: aPiece [
+MyChessSquare >> renderPawn: aPiece [ 
+	^ aPiece isWhite
+		  ifFalse: [
+			  color isBlack
+				  ifFalse: [ 'O' ]
+				  ifTrue: [ 'o' ] ]
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'P' ]
+				  ifTrue: [ 'p' ] ]
 
-		self subclassResponsibility
 ]
 
 { #category : 'rendering' }
 MyChessSquare >> renderQueen: aPiece [
 
-		self subclassResponsibility
+	^ aPiece isWhite
+		  ifFalse: [
+			  color isBlack
+				  ifFalse: [ 'W' ]
+				  ifTrue: [ 'w' ] ]
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'Q' ]
+				  ifTrue: [ 'q' ] ]
+
+
 ]
 
 { #category : 'rendering' }
-MyChessSquare >> renderRook: aPiece [
+MyChessSquare >> renderRook: aPiece [ 
 
-		self subclassResponsibility
+	^ aPiece isWhite
+		  ifFalse: [
+			  color isBlack
+				  ifFalse: [ 'T' ]
+				  ifTrue: [ 't' ] ]
+		  ifTrue: [
+			  color isBlack
+				  ifFalse: [ 'R' ]
+				  ifTrue: [ 'r' ] ]
+
 ]
 
 { #category : 'accessing' }
@@ -296,7 +366,8 @@ MyChessSquare >> upRight [
 ]
 
 { #category : 'constants' }
-MyChessSquare >> white [
+MyChessSquare >> white [ 
 
-	^ MyWhiteSquare new
+	^ self color: Color white
+
 ]
