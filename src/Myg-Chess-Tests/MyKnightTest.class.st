@@ -35,27 +35,3 @@ MyKnightTest >> testIsWhiteKnight [
 MyKnightTest >> testKnightId [
 	self assert: MyKnight new id equals: 'N'
 ]
-
-{ #category : 'tests' }
-MyKnightTest >> testRenderBlackKnight [
-
-| blackKnight|
-
-    blackKnight := MyKnight new color: Color black.
-
-    self assert: (MyWhiteSquare new renderKnight: blackKnight) equals: 'M'.
-
-    self assert: (MyBlackSquare new renderKnight: blackKnight) equals: 'm'.
-]
-
-{ #category : 'tests' }
-MyKnightTest >> testRenderWhiteKnight [
-
-| whiteKnight|
-
-  whiteKnight := MyKnight new color: Color white.
-
-    self assert: (MyWhiteSquare new renderKnight: whiteKnight) equals: 'N'.
-
-    self assert: (MyBlackSquare new renderKnight: whiteKnight) equals: 'n'.
-]

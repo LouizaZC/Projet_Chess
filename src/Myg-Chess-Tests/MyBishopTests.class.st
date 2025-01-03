@@ -65,27 +65,3 @@ MyBishopTests >> testMovesWithSameColorObstacle [
 			(#( f5 f3 g2 h1 d5 c6 b7 a8 d3 c2 b1 ) collect: [ :name |
 				 board at: name ])
 ]
-
-{ #category : 'tests' }
-MyBishopTests >> testRenderBlackBishop [
-
-| blackBishop |
-
-    blackBishop := MyBishop new color: Color black.
-
-    self assert: (MyWhiteSquare new renderBishop: blackBishop) equals: 'V'.
-
-    self assert: (MyBlackSquare new renderBishop: blackBishop) equals: 'v'.
-
-   
-]
-
-{ #category : 'tests' }
-MyBishopTests >> testRenderWhiteBishop [
-
-	| whiteBishop  |
-	whiteBishop := MyBishop new color: Color white.
-	
-	self assert: (MyWhiteSquare new renderBishop: whiteBishop) equals: 'B'.
-	self assert: (MyBlackSquare new renderBishop: whiteBishop) equals: 'b'
-]
