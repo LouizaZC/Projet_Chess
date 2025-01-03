@@ -8,10 +8,9 @@ Class {
 { #category : 'testing' }
 MyVoidPiece >> isVoidPiece [ 
 	^ true.
-	
 ]
 
-{ #category : 'rendering' }
+{ #category : 'testing' }
 MyVoidPiece >> renderPieceOn: aSquare [
 	^ aSquare color isBlack 
 		ifTrue: ['x']
@@ -25,5 +24,10 @@ MyVoidPiece >> targetSquaresLegal: aBoolean [
 
 { #category : 'accessing' }
 MyVoidPiece >> voidColor [
+	^ Color transparent
+]
+
+{ #category : 'as yet unclassified' }
+MyVoidPiece >> voidPieceColor [
 	^ Color transparent
 ]
