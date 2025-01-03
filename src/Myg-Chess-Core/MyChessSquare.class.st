@@ -42,7 +42,7 @@ MyChessSquare >> + aPoint [
 	column := (self column asciiValue + aPoint x) asCharacter asString.
 	file := (self file asciiValue + aPoint y) asCharacter asString.
 
-	^ board at: column , file ifAbsent: [ ^ MyVoidPiece new ]
+	^ board at: column , file ifAbsent: [ ^ nil ]
 ]
 
 { #category : 'api - text weight' }
@@ -100,7 +100,7 @@ MyChessSquare >> contents: aPiece [
 
 	text := contents
 		        ifNil: [
-			        contents:= MyVoidPiece new. ]
+			        contents:= MyVoidPiece new ]
 		        ifNotNil: [ contents renderPieceOn: self ].
 	piece text: (text asRopedText
 			 fontSize: 48;
@@ -128,22 +128,6 @@ MyChessSquare >> downRight [
 MyChessSquare >> emptyContents [
 	
 	self contents: MyVoidPiece new.
-]
-
-{ #category : 'rendering' }
-MyChessSquare >> enderQueen: aPiece [
-
-	^ aPiece isWhite
-		  ifFalse: [
-			  color isBlack
-				  ifFalse: [ 'W' ]
-				  ifTrue: [ 'w' ] ]
-		  ifTrue: [
-			  color isBlack
-				  ifFalse: [ 'Q' ]
-				  ifTrue: [ 'q' ] ]
-
-
 ]
 
 { #category : 'accessing' }
@@ -252,7 +236,8 @@ MyChessSquare >> renderBishop: aPiece [
 ]
 
 { #category : 'rendering' }
-MyChessSquare >> renderKing: aPiece [ 
+MyChessSquare >> renderKing: aPiece [
+
 	^ aPiece isWhite
 		  ifFalse: [
 			  color isBlack
@@ -262,7 +247,6 @@ MyChessSquare >> renderKing: aPiece [
 			  color isBlack
 				  ifFalse: [ 'K' ]
 				  ifTrue: [ 'k' ] ]
-
 ]
 
 { #category : 'rendering' }
