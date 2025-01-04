@@ -6,23 +6,43 @@ Class {
 }
 
 { #category : 'tests' }
-MyPawnTest >> testRenderBlackPawn [
+MyPawnTest >> testId [
 
-	| blackPawn |
-	blackPawn := MyPawn new color: Color black.
-
-	self assert: (MyWhiteSquare new renderPawn: blackPawn) equals: 'O'.
-
-	self assert: (MyBlackSquare new renderPawn: blackPawn) equals: 'o'
+	self assert: MyPawn new id equals: 'P'
 ]
 
 { #category : 'tests' }
-MyPawnTest >> testRenderWhitePawn [
+MyPawnTest >> testIsBlackPawn [
 
-	| whitePawn|
-	whitePawn := MyPawn new color: Color white.
+	self assert: MyPawn black color = Color black
+]
 
-	self assert: (MyWhiteSquare new renderPawn: whitePawn) equals: 'P'.
+{ #category : 'tests' }
+MyPawnTest >> testIsWhitePawn [
 
-	self assert: (MyBlackSquare new renderPawn: whitePawn) equals: 'p'
+	self assert: MyPawn white color = Color white
+]
+
+{ #category : 'tests' }
+MyPawnTest >> testRenderBlackPawnBlacksquare [
+
+	self assert: (MyBlackSquare new renderPawn: MyPawn black) equals: 'o'
+]
+
+{ #category : 'tests' }
+MyPawnTest >> testRenderBlackPawnWhitesquare [
+
+	self assert: (MyWhiteSquare new renderPawn: MyPawn black) equals: 'O'
+]
+
+{ #category : 'tests' }
+MyPawnTest >> testRenderWhitePawnBlacksquare [
+
+	self assert: (MyBlackSquare new renderPawn: MyPawn white) equals: 'p'
+]
+
+{ #category : 'tests' }
+MyPawnTest >> testRenderWhitePawnWhitesquare [
+
+	self assert: (MyWhiteSquare new renderPawn: MyPawn white) equals: 'P'
 ]

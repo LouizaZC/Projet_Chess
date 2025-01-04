@@ -12,6 +12,18 @@ MyBishopTests >> testId [
 ]
 
 { #category : 'tests' }
+MyBishopTests >> testIsBlackBishop [
+
+	self assert: MyBishop black color = Color black
+]
+
+{ #category : 'tests' }
+MyBishopTests >> testIsWhiteBishop [
+
+	self assert: MyBishop white color = Color white
+]
+
+{ #category : 'tests' }
 MyBishopTests >> testMoves [
 
 	| bishop squares board |
@@ -67,25 +79,33 @@ MyBishopTests >> testMovesWithSameColorObstacle [
 ]
 
 { #category : 'tests' }
-MyBishopTests >> testRenderBlackBishop [
+MyBishopTests >> testRenderBlackBishopBlacksquare [
 
-| blackBishop |
-
-    blackBishop := MyBishop new color: Color black.
-
-    self assert: (MyWhiteSquare new renderBishop: blackBishop) equals: 'V'.
-
-    self assert: (MyBlackSquare new renderBishop: blackBishop) equals: 'v'.
-
-   
+	self
+		assert: (MyBlackSquare new renderBishop: MyBishop black)
+		equals: 'v'
 ]
 
 { #category : 'tests' }
-MyBishopTests >> testRenderWhiteBishop [
+MyBishopTests >> testRenderBlackBishopWhitesquare [
 
-	| whiteBishop  |
-	whiteBishop := MyBishop new color: Color white.
-	
-	self assert: (MyWhiteSquare new renderBishop: whiteBishop) equals: 'B'.
-	self assert: (MyBlackSquare new renderBishop: whiteBishop) equals: 'b'
+	self
+		assert: (MyWhiteSquare new renderBishop: MyBishop black)
+		equals: 'V'
+]
+
+{ #category : 'tests' }
+MyBishopTests >> testRenderWhiteBishopBlacksquare [
+
+	self
+		assert: (MyBlackSquare new renderBishop: MyBishop white)
+		equals: 'b'
+]
+
+{ #category : 'tests' }
+MyBishopTests >> testRenderWhiteBishopWhitesquare [
+
+	self
+		assert: (MyWhiteSquare new renderBishop: MyBishop white)
+		equals: 'B'
 ]

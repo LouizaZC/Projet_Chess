@@ -12,6 +12,18 @@ MyRookTests >> testId [
 ]
 
 { #category : 'tests' }
+MyRookTests >> testIsBlackRook [
+
+	self assert: MyRook black color = Color black
+]
+
+{ #category : 'tests' }
+MyRookTests >> testIsWhiteRook [
+
+	self assert: MyRook white color = Color white
+]
+
+{ #category : 'tests' }
 MyRookTests >> testMoves [
 
 	| rook squares board |
@@ -67,25 +79,25 @@ MyRookTests >> testMovesWithSameColorObstacle [
 ]
 
 { #category : 'tests' }
-MyRookTests >> testRenderBlackRook [
+MyRookTests >> testRenderBlackRookBlacksquare [
 
-| blackRook |
-
-    blackRook := MyRook new color: Color black.
-
-    self assert: (MyWhiteSquare new renderRook: blackRook) equals: 'T'.
-
-    self assert: (MyBlackSquare new renderRook: blackRook) equals: 't'.
+	self assert: (MyBlackSquare new renderRook: MyRook black) equals: 't'
 ]
 
 { #category : 'tests' }
-MyRookTests >> testRenderWhiteRook [
+MyRookTests >> testRenderBlackRookWhitesquare [
 
-| whiteRook |
+	self assert: (MyWhiteSquare new renderRook: MyRook black) equals: 'T'
+]
 
-    whiteRook := MyRook new color: Color white.
+{ #category : 'tests' }
+MyRookTests >> testRenderWhiteRookBlacksquare [
 
-    self assert: (MyWhiteSquare new renderRook: whiteRook) equals: 'R'.
+	self assert: (MyBlackSquare new renderRook: MyRook white) equals: 'r'
+]
 
-    self assert: (MyBlackSquare new renderRook: whiteRook) equals: 'r'.
+{ #category : 'tests' }
+MyRookTests >> testRenderWhiteRookWhitesquare [
+
+	self assert: (MyWhiteSquare new renderRook: MyRook white) equals: 'R'
 ]

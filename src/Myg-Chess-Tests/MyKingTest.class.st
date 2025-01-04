@@ -37,25 +37,29 @@ MyKingTest >> testIsNotCheckBySameColorRook [
 ]
 
 { #category : 'tests' }
-MyKingTest >> testRenderBlackKing [
+MyKingTest >> testRenderBlackKingBlacksquare [
 
-| blackKing |
-
-    blackKing := MyKing new color: Color black.
-
-    self assert: (MyWhiteSquare new renderKing: blackKing) equals: 'L'.
-
-    self assert: (MyBlackSquare new renderKing: blackKing) equals: 'l'.
+	self
+		assert: (MyBlackSquare new renderKing: MyKnight black)
+		equals: 'l'
 ]
 
 { #category : 'tests' }
-MyKingTest >> testRenderWhiteKing [
+MyKingTest >> testRenderBlackKingWhitesquare [
 
-| whiteKing |
+	self
+		assert: (MyWhiteSquare new renderKing: MyKnight black)
+		equals: 'L'
+]
 
-   whiteKing := MyKing new color: Color white.
+{ #category : 'tests' }
+MyKingTest >> testRenderWhiteKingBlacksquare [
 
-    self assert: (MyWhiteSquare new renderKing: whiteKing) equals: 'K'.
+	self assert: (MyBlackSquare new renderKing: MyKing white) equals: 'k'
+]
 
-    self assert: (MyBlackSquare new renderKing: whiteKing) equals: 'k'.
+{ #category : 'tests' }
+MyKingTest >> testRenderWhiteKingWhitesquare [
+
+	self assert: (MyWhiteSquare new renderKing: MyKing white) equals: 'K'
 ]

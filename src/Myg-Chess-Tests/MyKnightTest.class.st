@@ -16,14 +16,11 @@ self assert: knight color = Color black
 
 { #category : 'tests' }
 MyKnightTest >> testIsBlackKnight [
-	"self assert: ((MyKnight new color: Color black) color = Color black)."
-	self assert: ((MyKnight black) color = Color black). 
 	
-"| knight |
-	
-knight := MyKnight new.
-knight color: Color black.
-self assert: knight color = Color black "
+
+	self assert: MyKnight black color = Color black
+
+
 ]
 
 { #category : 'tests' }
@@ -49,6 +46,22 @@ MyKnightTest >> testRenderBlackKnight [
 ]
 
 { #category : 'tests' }
+MyKnightTest >> testRenderBlackKnightBlacksquare [
+
+	self
+		assert: (MyBlackSquare new renderKnight: MyKnight black)
+		equals: 'm'
+]
+
+{ #category : 'tests' }
+MyKnightTest >> testRenderBlackKnightWhitesquare [
+
+	self
+		assert: (MyWhiteSquare new renderKnight: MyKnight black)
+		equals: 'M'
+]
+
+{ #category : 'tests' }
 MyKnightTest >> testRenderWhiteKnight [
 
 | whiteKnight|
@@ -58,4 +71,20 @@ MyKnightTest >> testRenderWhiteKnight [
     self assert: (MyWhiteSquare new renderKnight: whiteKnight) equals: 'N'.
 
     self assert: (MyBlackSquare new renderKnight: whiteKnight) equals: 'n'.
+]
+
+{ #category : 'tests' }
+MyKnightTest >> testRenderWhiteKnightBWhitesquare [
+
+	self
+		assert: (MyWhiteSquare new renderKnight: MyKnight white)
+		equals: 'N'
+]
+
+{ #category : 'tests' }
+MyKnightTest >> testRenderWhiteKnightBlacksquare [
+
+	self
+		assert: (MyBlackSquare new renderKnight: MyKnight white)
+		equals: 'n'
 ]
