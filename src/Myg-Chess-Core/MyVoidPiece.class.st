@@ -10,14 +10,26 @@ MyVoidPiece >> hasPiece [
 	^ false
 ]
 
+{ #category : 'accessing' }
+MyVoidPiece >> id [ 
+	^ 'empty'
+]
+
 { #category : 'testing' }
 MyVoidPiece >> isVoidPiece [ 
 	^ true.
 ]
 
+{ #category : 'path commands' }
+MyVoidPiece >> moveTo: aSquare [
+	^ self error: 'We cannot move a void piece'
+]
+
 { #category : 'testing' }
 MyVoidPiece >> renderPieceOn: aSquare [
-	^ nil
+	^ aSquare color isBlack
+        ifTrue: [ 'x' ]
+        ifFalse: [ 'z' ]
 ]
 
 { #category : 'rendering' }
