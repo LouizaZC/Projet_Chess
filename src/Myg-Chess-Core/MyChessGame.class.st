@@ -137,11 +137,18 @@ MyChessGame >> lastMove [
 MyChessGame >> move: piece to: square [ 
     | startSquare |
     startSquare := piece square.
-    piece moveTo: square.  
-
-    self recordMovementOf: piece  to: square. 
-
-
+	 square isOutOftheBoard 
+		ifTrue: [
+            | legalMoves|
+				legalMoves := piece legalTargetSquares.
+				legalMoves ifNotEmpty: [
+					self move: piece to: legalMoves atRandom.
+    				 ]
+			]
+		ifFalse: [ 
+			piece moveTo: square.		
+   		   self recordMovementOf: piece  to: square. 	  
+			 ]
 ]
 
 { #category : 'accessing' }

@@ -7,7 +7,7 @@ Class {
 
 { #category : 'accessing' }
 MyOutOfTheBoardCase >> contents [
-	self
+	^ self
 ]
 
 { #category : 'instance creation' }
@@ -48,7 +48,7 @@ MyOutOfTheBoardCase >> left [
 
 { #category : 'accessing' }
 MyOutOfTheBoardCase >> name [
-	^ ' out of the board;'
+	^ 'out of the board'
 ]
 
 { #category : 'instance creation' }
