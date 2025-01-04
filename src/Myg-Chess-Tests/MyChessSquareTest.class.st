@@ -33,6 +33,14 @@ MyChessSquareTest >> testEmptyContentsWithoutTheNilChecks [
 ]
 
 { #category : 'tests' }
+MyChessSquareTest >> testHasPiece [ 
+	| voidPiece |
+	voidPiece := MyVoidPiece new.
+
+	self assert: voidPiece hasPiece not.
+]
+
+{ #category : 'tests' }
 MyChessSquareTest >> testHasPieceWithoutNilChecks [
 	|board piece square|
 	board := MyChessBoard empty.
@@ -249,6 +257,15 @@ MyChessSquareTest >> testRenderPawnWhitePieceWhiteColor [
 ]
 
 { #category : 'tests' }
+MyChessSquareTest >> testRenderPieceOnSquare [ 
+	| voidPiece square |
+	voidPiece := MyVoidPiece new.
+	square := MyChessSquare basicNew color: Color white; initialize; yourself.
+
+	self assert: (voidPiece renderPieceOn: square) isNil
+]
+
+{ #category : 'tests' }
 MyChessSquareTest >> testRenderQueenBlackPieceBlackColor [ 
     | queenPiece renderer |
     
@@ -380,4 +397,11 @@ MyChessSquareTest >> testSquareNameSetter [
     square name: 'a5'.
 
     self assert: square name equals: 'a5'.
+]
+
+{ #category : 'tests' }
+MyChessSquareTest >> testTargetSquaresLegal [ 
+    | voidPiece |
+    voidPiece := MyVoidPiece new.
+    self assert: (voidPiece targetSquaresLegal: true) isEmpty
 ]
