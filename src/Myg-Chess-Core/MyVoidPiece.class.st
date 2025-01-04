@@ -6,15 +6,18 @@ Class {
 }
 
 { #category : 'testing' }
+MyVoidPiece >> hasPiece [ 
+	^ false
+]
+
+{ #category : 'testing' }
 MyVoidPiece >> isVoidPiece [ 
 	^ true.
 ]
 
 { #category : 'testing' }
 MyVoidPiece >> renderPieceOn: aSquare [
-	^ aSquare color isBlack 
-		ifTrue: ['x']
-		ifFalse: [ 'z' ]
+	^ nil
 ]
 
 { #category : 'rendering' }

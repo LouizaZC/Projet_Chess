@@ -37,7 +37,7 @@ MyChessBoard class >> new [
 { #category : 'accessing' }
 MyChessBoard >> at: coordinate [
 
-	^ grid at: coordinate ifAbsent: nil
+	^ grid at: coordinate ifAbsent: MyOutOfTheBoardCase new.
 ]
 
 { #category : 'accessing' }
@@ -88,7 +88,7 @@ MyChessBoard >> game: aGame [
 { #category : 'highlighting' }
 MyChessBoard >> highLightTargets: squares [
 
-	squares do: [ :sq | sq ifNotNil: #highlightTarget ]
+	squares do: [ :sq | sq highlightTarget ]
 ]
 
 { #category : 'initialization' }
@@ -201,7 +201,7 @@ MyChessBoard >> initializeSquares [
 						          color: Color black;
 						          board: self;
 						          initialize;
-						          contents: nil;
+						          contents: MyVoidPiece new;
 						          yourself ]
 				          ifFalse: [
 					          black := true.
@@ -209,7 +209,7 @@ MyChessBoard >> initializeSquares [
 						          color: Color white;
 						          board: self;
 						          initialize;
-						          contents: nil;
+						          contents: MyVoidPiece new;
 						          yourself ].
 			square name: squareNotation.
 			grid at: squareNotation put: square.
