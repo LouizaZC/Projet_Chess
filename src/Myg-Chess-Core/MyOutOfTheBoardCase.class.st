@@ -5,6 +5,11 @@ Class {
 	#package : 'Myg-Chess-Core'
 }
 
+{ #category : 'accessing' }
+MyOutOfTheBoardCase >> contents [
+	self
+]
+
 { #category : 'instance creation' }
 MyOutOfTheBoardCase >> down [
 
@@ -39,6 +44,11 @@ MyOutOfTheBoardCase >> isOutOftheBoard [
 MyOutOfTheBoardCase >> left [
 
 	^ self
+]
+
+{ #category : 'accessing' }
+MyOutOfTheBoardCase >> name [
+	^ ' out of the board;'
 ]
 
 { #category : 'instance creation' }
