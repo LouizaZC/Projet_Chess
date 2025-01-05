@@ -272,8 +272,102 @@ De même pour la classe MyOutOfTheBoardCase.
 
 
 ------------------------------------------------------------------------------------------------
-## Kata Meriem : 
+## Kata Meryem : Refactor piece rendering
 
+Le code ci-dessous présente une complexité excessive dans la logique de rendering des pièces, 
+comme on peut le voir dans des méthodes telles que `renderKnight:
+```smalltalk
+MyChessSquare >> renderKnight: aPiece
+
+    ^ aPiece isWhite
+          ifFalse: [ color isBlack
+                  ifFalse: [ 'M' ]
+                  ifTrue: [ 'm' ] ]
+          ifTrue: [
+              color isBlack
+                  ifFalse: [ 'N' ]
+                  ifTrue: [ 'n' ] ]
+```
+
+
+Cette méthode utilise de nombreuses conditions imbriquées pour déterminer l'affichage des pièces en fonction de leur couleur
+et de celle de la case. Le code ne respecte pas les normes de codage et de qualité, 
+ce qui le rend difficile à comprendre et à maintenir. L'objectif principal est de simplifier cette logique en réduisant le nombre de conditions,
+ afin d'améliorer la lisibilité et la maintenabilité du code.
+
+### Exploration et Compréhension du Processus de Rendering des Pièces
+
+Dans cette première phase du kata, j'ai analysé les **classes principales** utilisées dans le contexte du Kata, notamment :
+- **`MyChessSquare`**
+- **`MyPiece`** et ses sous-classes
+
+### Analyse et Objectifs
+Je me suis concentré sur la **logique de rendering des pièces** sur les cases, ainsi que sur son utilité dans le projet. Cette exploration a été essentielle pour :
+- Comprendre les **interactions** entre les classes.
+- Identifier les **améliorations** potentielles pour rendre le code plus lisible.
+
+### Recherches et Ressources
+En approfondissant mes recherches, je suis tombé sur un dépôt GitHub qui explique bien ce processus. Cette ressource m'a aidé à mieux comprendre l'utilité de l'approche adoptée :
+- [Open Chess Font - GitHub Repository](https://github.com/joshwalters/open-chess-font/tree/master)
+
+### Solution : Double dispatch (exemple sur la pièce Knight)
+
+Avant la refactorisation, la méthode `renderKnight: aPiece` de la classe `MyChessSquare` était responsable du rendu des chevaliers.
+Elle déterminait la couleur de la pièce (blanche ou noire) et, en fonction de la couleur de la case (noire ou autre), elle retournait un caractère (`'M'`, `'m'`, `'N'`, `'n'`) pour afficher la pièce correspondante.
+
+Après les modifications, cette responsabilité a été déplacée dans la classe de la pièce elle-même. La méthode `renderPieceOn: aSquare` a été ajoutée à la classe `MyKnight` et délègue désormais l'affichage de la pièce à la méthode `renderKnight:`.
+Cependant, cette dernière n'est plus définie dans la classe `MyChessSquare`, mais dans ses sous-classes spécifiques : `MyBlackSquare` et `MyWhiteSquare`.
+Chaque sous-classe gère maintenant le rendu de la pièce en fonction de sa couleur, simplifiant ainsi la logique et respectant les principes de responsabilité unique et d'envoi de messages entre les différentes classes.
+#### avant : 
+
+```smalltalk
+MyChessSquare >> renderKnight: aPiece
+
+    ^ aPiece isWhite
+          ifFalse: [ color isBlack
+                  ifFalse: [ 'M' ]
+                  ifTrue: [ 'm' ] ]
+          ifTrue: [
+              color isBlack
+                  ifFalse: [ 'N' ]
+                  ifTrue: [ 'n' ] ]
+```
+#### après :
+```smalltalk
+MyChessSquare >> renderKnight: aPiece [
+
+		self subclassResponsibility
+]
+MyKnight >> renderPieceOn: aSquare [
+
+	^ aSquare renderKnight: self
+] 
+MyBlackSquare >> renderKnight: aPiece [
+
+	^ aPiece isWhite
+		  ifTrue: [ 'n' ]
+		  ifFalse: [ 'm' ]
+]
+MyWhiteSquare >> renderKnight: aPiece [
+
+	^ aPiece isWhite
+		  ifTrue: [ 'N' ]
+		  ifFalse: [ 'M' ]
+]
+```
+
+### Tests 
+
+J'ai développé des tests unitaires dans Toutes les classes pièces qui testent les cas possibles du rendering.la classe MyPawnTest pour valider le bon fonctionnement de chaque comportement des pions : déplacement d'une ou deux cases, capture en diagonale, et mouvement "en passant".
+
+#### Tests effectués sur le rendu des chevaliers comme exemple
+
+Des tests ont été réalisés pour vérifier le bon comportement du rendu des chevaliers et des autres pièces en fonction de la couleur de la pièce et de la couleur de la case. Voici les différents scénarios testés :
+
+- `testRenderBlackKnightBlacksquare`: Vérifie que lorsque le chevalier noir est placé sur une case noire, le caractère `'m'` est retourné.
+- `testRenderBlackKnightWhitesquare`: Vérifie que lorsque le chevalier noir est placé sur une case blanche, le caractère `'M'` est retourné.
+- `testRenderWhiteKnightWhitesquare`: Vérifie que lorsque le chevalier blanc est placé sur une case blanche, le caractère `'N'` est retourné.
+- `testRenderWhiteKnightBlacksquare`: Vérifie que lorsque le chevalier blanc est placé sur une case noire, le caractère `'n'` est retourné.
 
 
 
