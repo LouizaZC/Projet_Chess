@@ -221,8 +221,54 @@ J'ai également réalisé des tests manuels afin de couvrir tous les cas particu
 
 ------------------------------------------------------------------------------------------------
 
-## Kata Wassim :
+## Kata Wassim : Remove nil Checks
+## Objectif
 
+Ce kata vise à améliorer la qualité et la maintenabilité du code en remplaçant les vérifications explicites de `nil` par une solution orientée objet basée sur le polymorphisme. Dans la version originale du jeu d’échecs, une case vide était représentée par `nil`, entraînant de nombreuses vérifications explicites dans le code. J'ai refactoré ce comportement pour respecter les principes de conception logicielle.
+
+---
+
+## Organisation des fonctionnalités:
+- **Branche `main`** : Elle contient uniquement le développement concernant `MyVoidPiece` + le dev de Louiza. 
+- **Branche `Wassim-Remove-nil-checks`** : Cette branche inclut également le développement de `MyOutOfTheBoardCase`. Cependant, comme cette fonctionnalité n'est pas encore complètement stable, elle a été laissée hors de la branche principale pour éviter d'introduire des bugs.
+
+## Solution : Introduction de `MyVoidPiece`
+
+### Qu'est-ce que `MyVoidPiece` ?
+`MyVoidPiece` est une classe représentant une "pièce vide". Elle hérite de `MyPiece` et remplace `nil` dans les cases vides. Cette approche utilise le polymorphisme pour garantir que chaque case contient toujours un objet valide, éliminant ainsi la nécessité de vérifier explicitement la présence de `nil`.
+
+---
+
+## Changements Clés
+
+### 1. Création de `MyVoidPiece`
+Cette classe implémente des comportements spécifiques aux cases vides :
+- **`renderPieceOn:`** : Définit l'apparence visuelle d'une case vide.
+- **`targetSquaresLegal:`** : Retourne une liste vide, car une case vide ne peut pas avoir de cibles valides.
+- **`isVoidPiece`** : Permet d'identifier une instance de `MyVoidPiece`.
+
+### 2. Refactorisation des Méthodes dans `MyChessSquare`
+- **`contents:`** : Remplace `nil` par une instance de `MyVoidPiece`.
+- **`emptyContents`** : Réinitialise une case avec `MyVoidPiece`.
+- **`hasPiece`** : Vérifie la présence d’une pièce en testant si le contenu est différent de `MyVoidPiece`.
+...etc
+
+### 4. Création de `MyOutOfTheBoardCase`
+Cette classe gère les cases hors du plateau d'échecs. Elle remplace l'utilisation de `nil` pour ces cases.
+- **`up`, `down`, `left`, `right`** : Ces méthodes renvoient une instance de `MyOutOfTheBoardCase`, indiquant que la case est hors du plateau.
+- **`hasPiece`** : Retourne `false`, puisqu'une case hors du plateau ne contient pas de pièce.
+- **`isOutOfTheBoard`** : Retourne `true`, identifiant la case comme étant hors du plateau.
+---
+
+### Difficultés rencontrées
+- **Conflits Git** : Après avoir fusionné ma branche `wassim` avec celle de Meriem, j'ai rencontré des conflits majeurs. J'ai résolu cela en créant une nouvelle branche `Wassim-Remove-nil-checks`.
+- **Comportement instable des cases hors plateau** : 
+Dans le cas de jeu automatique, dans le cas ou la case choisie aléatoirement par le jeu est hors du plateau, la pièce ne change pas de case mais le joueur perd son tour. (le nom de la case OutOfTheBoard s'affiche dans le mesage du mouvement)
+
+## Tests
+
+Les tests ont joué un rôle central dans ce refactoring. Étant donné que le remplacement de `nil` par `MyVoidPiece` n'a aucun effet visuel dans le jeu, les tests ont été la seule méthode fiable pour vérifier que les changements fonctionnaient correctement. 
+De même pour la classe MyOutOfTheBoardCase.
 
 
 ------------------------------------------------------------------------------------------------
