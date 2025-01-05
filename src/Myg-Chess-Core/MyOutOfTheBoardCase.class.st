@@ -19,7 +19,7 @@ MyOutOfTheBoardCase >> down [
 { #category : 'instance creation' }
 MyOutOfTheBoardCase >> file [
 
-	^ 0
+	^ -1 
 ]
 
 { #category : 'testing' }
@@ -32,6 +32,11 @@ MyOutOfTheBoardCase >> hasPiece [
 MyOutOfTheBoardCase >> highlightTarget [ 
 	"we cannot highlight a target out of the board"
 
+]
+
+{ #category : 'accessing' }
+MyOutOfTheBoardCase >> id [
+	^ 'Out of the board'
 ]
 
 { #category : 'instance creation' }

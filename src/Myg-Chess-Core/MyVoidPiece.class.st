@@ -12,7 +12,7 @@ MyVoidPiece >> hasPiece [
 
 { #category : 'accessing' }
 MyVoidPiece >> id [ 
-	^ 'empty'
+	^ 'void'
 ]
 
 { #category : 'testing' }

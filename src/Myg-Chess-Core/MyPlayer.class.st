@@ -64,8 +64,6 @@ MyPlayer >> play [
 	pieces := self king isInCheck
 		          ifTrue: [ OrderedCollection with: self king ]
 		          ifFalse: [ self pieces copy asOrderedCollection ].
-
-
 	[ pieces notEmpty ] whileTrue: [
 		| piece legalMoves |
 		piece := pieces atRandom.
@@ -73,9 +71,7 @@ MyPlayer >> play [
 		legalMoves := piece legalTargetSquares.
 		legalMoves ifNotEmpty: [
 			game move: piece to: legalMoves atRandom.
-			^ self ] ].
-
-	self halt: 'NO MOVES AVAILABLE!'
+			^ self ] ]
 ]
 
 { #category : 'constants' }
