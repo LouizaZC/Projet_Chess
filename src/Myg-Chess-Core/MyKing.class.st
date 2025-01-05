@@ -13,18 +13,17 @@ MyKing >> attackingSquares [
 
 { #category : 'rendering' }
 MyKing >> basicTargetSquares [
-
 	"The king can move one square on each direction including diagonals"
+
 	^ {
-		square right.
-		square up right.
-		square up.
-		square up left.
-		square left.
-		square left down.
-		square down.
-		square down right
-	}
+		  square right.
+		  square up right.
+		  square up.
+		  square up left.
+		  square left.
+		  square left down.
+		  square down.
+		  square down right } reject: [ :ssquare | ssquare isOutOftheBoard ]
 ]
 
 { #category : 'accessing' }

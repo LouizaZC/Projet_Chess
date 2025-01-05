@@ -7,7 +7,7 @@ Class {
 
 { #category : 'accessing' }
 MyOutOfTheBoardCase >> contents [
-	^ self
+	 ^self
 ]
 
 { #category : 'instance creation' }
@@ -19,7 +19,7 @@ MyOutOfTheBoardCase >> down [
 { #category : 'instance creation' }
 MyOutOfTheBoardCase >> file [
 
-	^ -1
+	^ 0
 ]
 
 { #category : 'testing' }
