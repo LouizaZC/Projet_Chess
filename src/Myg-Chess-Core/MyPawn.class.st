@@ -161,6 +161,7 @@ MyPawn >> moveTo: aSquare [
 		             ifFalse: [ nil ].
 	firstMove := false
 
+
 ]
 
 { #category : 'rendering' }
