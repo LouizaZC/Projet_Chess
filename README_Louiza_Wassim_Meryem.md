@@ -59,12 +59,12 @@ Une fenêtre contenant l'échiquier s'ouvrira, où vous pourrez interagir avec l
 
 ## Katas réalisés :
 
-### Kata Louiza :Fix pawn moves!
+## Kata Louiza :Fix pawn moves!
 
 Mon kata a pour objectif de mettre en œuvre les règles de déplacement des pions dans un jeu d'échecs, tout en respectant les particularités comme le premier mouvement, les captures diagonales et la prise en passant.
 
 
-#### Partie 1 : Exploration et tests initiaux :
+### Partie 1 : Exploration et tests initiaux :
 
 Dans cette première phase du kata, j'ai analysé les classes principales et exploré le comportement des pions afin de corriger plusieurs anomalies liées aux mouvements. Mon objectif était de faire en sorte que les pions respectent les règles fondamentales du jeu d’échecs.
 
@@ -109,7 +109,7 @@ singleStepSquare ifNotNil: [
 Avec cette logique, un pion peut avancer de deux cases uniquement lors de son premier mouvement.
 
 
-#### Partie 2 : Refactorisation et ajout des captures diagonales
+### Partie 2 : Refactorisation et ajout des captures diagonales
 
 
 Pour améliorer la lisibilité du code, j'ai refactorisé la méthode targetSquaresLegal et séparé les différents calculs des mouvements dans des méthodes spécifiques :
@@ -119,7 +119,7 @@ Pour améliorer la lisibilité du code, j'ai refactorisé la méthode targetSqua
 
 Maintenant, les pions capturent correctement en diagonale uniquement.
 
-#### Partie 3 : Écriture des tests et implémentation de la prise en passant
+### Partie 3 : Écriture des tests et implémentation de la prise en passant
 
 Une fois les bases du déplacement des pions en place, je me suis attaqué à la prise en passant. J'ai donc commencé par écrire un test pour vérifier si un pion pouvait capturer un autre pion en passant, après que ce dernier ait effectué un double déplacement. 
 
@@ -186,7 +186,7 @@ canCaptureEnPassant
 la capture en passant s’intègre au système global de déplacements des pions grâce à la classe **MyMove**, que j’ai créée pour centraliser toute la logique de mouvement. Cette classe gère les informations liées à chaque déplacement, comme la case de départ, la case d’arrivée et la pièce impliquée.
 
 
-#### Problèmes rencontrés et solutions :
+### Problèmes rencontrés et solutions :
 
 ##### L'implémentation de la règle "en passant" :
 
@@ -221,12 +221,12 @@ J'ai également réalisé des tests manuels afin de couvrir tous les cas particu
 
 ------------------------------------------------------------------------------------------------
 
-### Kata Wassim :
+## Kata Wassim :
 
 
 
 ------------------------------------------------------------------------------------------------
-### Kata Meriem : 
+## Kata Meriem : 
 
 
 
